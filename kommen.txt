@@ -1,0 +1,260 @@
+autentifikasi diambil dari :s
+https://kotakode.com/blogs/6252/Cara-Membuat-Login-Dan-Register-Multilevel-Dengan-Codeigniter-4
+
+Membuat CRUD versi Petani kode
+https://www.petanikode.com/codeigniter4-crud/
+membuat file migration
+membuat tabel database
+membuat model
+
+membuat routes user
+buat view news
+membuat news controller
+buat view news_detail
+buat folder layout dan post_layout
+
+-------------------------------------------
+membuat routes admin/news
+membuat controller NewsAdmin.php
+Membuat Layout navbar dan admin
+Membuat View
+	View untuk list news (admin_list_news.php)
+	View untuk menulis news (admin_create_news.php)
+	View untuk edit news (admin_edit_news.php)
+
+#####################################################################################
+#####################################################################################
+
+membuat crud kategori versi video
+1. buat file migrate dengan tulis di command 
+    php spark migrate:create nama_file
+2. lalu isikan file migrate  nya seperti di url 
+    https://www.codeigniter.com/user_guide/dbmgmt/migration.html#create-a-migration
+
+    isikan funcion public function up() dan down()
+3. migrate ke database dengan tulis command 
+   php spark migrate
+4. Configurasi class model
+5. buat entity class
+6. coba insert data dummy di database
+7. buat file controlernya
+8. atur routes dengan membuat grup
+9. buat variabel global di base conroller seperti
+    protected $session = null;
+    protected $userModel = null;
+    protected $validation = null;
+    protected $data = [];
+
+    $this->session = \Config\Services::session();
+    $this->data['session'] = $this->session;
+10. buat costuktor di controller yang berisi object model
+        
+    protected $categoryModel;
+
+    public function __construct()
+    {
+        $this->categoryModel = new CategoryModel();
+    }
+
+10. test sambungan di funtion index
+
+    public function index()
+    {
+        $category = $this->categoryModel->findAll();
+        print_r($category);
+    }
+
+11. sebelumnya buat variabel data dan session di base controller
+12. buat pagenation # lewatkan ke data
+     $this->data['category'] = $this->categoryModel->paginate($this->perpage);
+     /// atau 
+     $this->data['categories'] = $this->categoryModel->paginate($this->perpage, 'bootstrap');
+     dan tambahkan:
+     $this->data['pager'] = $this->categoryModel->pager;
+13. kirimkan ke view menggunakan renderview / view -> # return view('admin/categories/index', $this->data);
+14. buat file view nya
+15. data di panggil di view
+
+    <?php foreach ($categories as $category) : ?>
+    <tr>
+        <td><?= $category->id ?></td>
+        <td><?= $category->name ?></td>
+    </tr>
+    <?php endforeach; ?>
+
+16. buat tombol create
+
+16. buat tombol update dan delete beserta id nya
+
+        <a href="<?= site_url('admin/categories/' . $category->id) ?>"
+        class="badge bg-info">edit</a>
+    <!-- <a href=" //site_url('admin/categories/delete/'. $category->id) "
+        class="badge bg-danger delete-item">delete</a> -->
+    <form method="POST"
+        action="<?= site_url('admin/categories/' . $category->id) ?>"
+        accept-charset="UTF-8" class="delete" style="display:inline-block">
+        <input name="_method" type="hidden" value="DELETE">
+        <button class="badge bg-danger"
+            style="border:none !important">delete</button>
+    </form>
+
+16. pages dipaggil di view dengan kasih ke footer
+     <?php echo $pager->links(); ?>
+     atau
+     <?php echo $pager->links('bootstrap', 'bootstrap_pagination')?>
+17.  tambahkan conf pager bila pakai bootstrap
+    public array $templates = [
+        ........
+        'bootstrap_pagination'   => 'App\Views\pagers\bootstrap_pagination',
+    ];
+
+18. beri pesan error di form input
+            <?php if (!empty($errors)) : ?>
+                <div class="alert alert-danger" role="alert">
+                    <p><strong>Whoops!</strong> There are some problems with your input.</p>
+                    <ul>
+                        <?php foreach ($errors as $field => $error) : ?>
+                            <li><?= $error ?></li>
+                        <?php endforeach ?>
+                    </ul>
+                </div>
+            <?php endif ?>
+
+            <?php if (!empty($session->getFlashdata('success'))) : ?>
+                <div class="alert alert-success">
+                    <?= $session->getFlashdata('success') ?>
+                </div>
+            <?php endif; ?>
+
+            <?php if (!empty($session->getFlashdata('errors'))) : ?>
+                <div class="alert alert-danger">
+                    <?= $session->getFlashdata('errors') ?>
+                </div>
+            <?php endif; ?>
+ 
+19. bila menggunakan set value pada form input untuk tidak perlu milih lagi maka di class baseControlleler pada helper diberi 
+   
+    protected $helpers = ['form'];
+
+    dan diset value form input tulis seperti ini :
+    <input type="text" name="name" class="form-control" value="<?php echo set_value('name', isset($category->name) ? ($category->name) : ''); ?>" id="categoryName" placeholder="Enter category name">
+     
+20. di route untuk create, update, delete kasih seperti ini:
+    $routes->get('categories/(:num)', 'Admin\Categories::index/$1');
+    $routes->post('categories', 'Admin\Categories::store');
+    $routes->put('categories/(:num)', 'Admin\Categories::update/$1');
+    $routes->delete('categories/(:num)', 'Admin\Categories::destroy/$1');
+
+21. untuk create buat seperti ini:
+    buat fungsi store / submit
+
+    // digunakan untuk menyimpan ke data
+    private function getCategories()
+    {
+        $this->data['categories'] = $this->categoryModel->paginate($this->perpage, 'bootstrap');
+        $this->data['pager'] = $this->categoryModel->pager;
+    }
+    
+    public function store()
+    {
+        // mengambil parameter html name="name"
+        $params = [
+            'name' => $this->request->getVar('name'),
+        ];
+        $params['slug'] = strtolower(url_title($params['name']));
+
+        //masukan data ke database
+        if ($this->categoryModel->save($params)) {
+            $this->session->setFlashdata('success', 'Category has been saved.');
+            return redirect()->to('/admin/categories');
+        } else {
+            $this->getCategories();
+            $this->data['errors'] = $this->categoryModel->errors();
+            return view('admin/categories/index', $this->data);
+        }
+    }
+
+22. untuk mencari id dari update dan delete ubah dulu index seperti ini:
+
+    public function index($categoryId = null)
+    {
+        if ($categoryId) {
+            $category = $this->categoryModel->find($categoryId);
+            if (!$category) {
+                $this->session->setFlashdata('errors', 'Invalid category');
+                return redirect()->to('/admin/categories');
+            }
+
+            $this->data['category'] = $category;
+        }
+
+        $this->getCategories();
+
+        return view('admin/categories/index', $this->data);
+    }
+
+23. untuk update buat fungsi update
+        public function update($id)
+    {
+        $params = [
+            'id' => $id,
+            'name' => $this->request->getVar('name'),
+        ];
+
+
+        if ($this->categoryModel->save($params)) {
+            $this->session->setFlashdata('success', 'Category has been updated!');
+            return redirect()->to('/admin/categories');
+        } else {
+            $this->getCategories();
+            $this->data['errors'] = $this->categoryModel->errors();
+            return view('admin/categories/index', $this->data);
+        }
+    }
+
+    jangan lupa kalau create metode nya POST kalau update put
+
+    lihat pada form html nya
+       <?php if (!empty($category)) : ?>
+        <form role="form" method="post" action="<?= site_url('admin/categories/') . $category->id
+                                                ?>">
+            <input name="_method" type="hidden" value="PUT">
+        <?php else : ?>
+            <form role="form" method="post" action="<?= site_url('admin/categories') ?>">
+            <?php endif; ?>
+
+24. jangan lupa di kelas model buat validasinya:
+	protected $validationRules    = [
+		'id'    => 'is_unique[categories.name]',
+		'name'	=> 'required|min_length[3]|is_unique[categories.name,id,{id}]',
+	];
+
+    catatan : untuk id hanya perlu validasi formal karena gg bisa lagi 
+
+25. Delete
+    pertama kasih window alert untuk delete dari html class delete 
+        <script>
+    $(".delete").on("submit", function() {
+        return confirm("Do you want to remove this?");
+    });
+    </script>
+
+26. buat fungsi delete
+
+    public function destroy($id)
+        {
+            $category = $this->categoryModel->find($id);
+            if (!$category) {
+                $this->session->setFlashdata('errors', 'Invalid category');
+                return redirect()->to('/admin/categories');
+            }
+
+            if ($this->categoryModel->delete($category->id)) {
+                $this->session->setFlashdata('success', 'The category has been deleted');
+                return redirect()->to('/admin/categories');
+            } else {
+                $this->session->setFlashdata('errors', 'Could not delete the category');
+                return redirect()->to('/admin/categories');
+            }
+        }
+

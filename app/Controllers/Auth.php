@@ -2,14 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\UserModel;
+use App\Models\AdminModel;
 
 class Auth extends BaseController
 {
     public function __construct()
     {
         //membuat user model untuk konek ke database 
-        $this->userModel = new UserModel();
+        $this->userModel = new AdminModel();
 
         //meload validation
         $this->validation = \Config\Services::validation();

@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Halaman Register</title>
+    <title>Login MeCoffe</title>
     <style>
     body {
         background-color: #f1f1f1;
@@ -54,12 +54,12 @@
         background-color: #45a049;
     }
 
-    .form-group .login-link {
+    .form-group .signup-link {
         text-align: center;
         margin-top: 10px;
     }
 
-    .form-group .login-link a {
+    .form-group .signup-link a {
         color: #337ab7;
         text-decoration: none;
     }
@@ -69,22 +69,27 @@
 <body>
     <?php
     $session = session();
-    $error = $session->getFlashdata('error');
+    $login = $session->getFlashdata('login');
+    $username = $session->getFlashdata('username');
+    $password = $session->getFlashdata('password');
     ?>
 
-    <?php if ($error) { ?>
-    <p style="color:red">Terjadi Kesalahan:
-    <ul>
-        <?php foreach ($error as $e) { ?>
-        <li><?php echo $e ?></li>
-        <?php } ?>
-    </ul>
-    </p>
-    <?php } ?>
-
     <div class="container">
-        <h2>Halaman Register Admin</h2>
-        <form action="/auth/valid_register" method="post">
+        <h2>Halaman Login User</h2>
+
+        <?php if ($username) { ?>
+        <p style="color:red"><?php echo $username ?></p>
+        <?php } ?>
+
+        <?php if ($password) { ?>
+        <p style="color:red"><?php echo $password ?></p>
+        <?php } ?>
+
+        <?php if ($login) { ?>
+        <p style="color:green"><?php echo $login ?></p>
+        <?php } ?>
+
+        <form action="/valid_login" method="post">
             <div class="form-group">
                 <label for="username">Username:</label>
                 <input type="text" id="username" name="username" placeholder="Masukkan username" required>
@@ -94,13 +99,14 @@
                 <input type="password" id="password" name="password" placeholder="Masukkan password" required>
             </div>
             <div class="form-group">
-                <label for="confirm_password">Konfirmasi Password:</label>
-                <input type="password" id="confirm" name="confirm" placeholder="Masukkan konfirmasi password" required>
-            </div>
-            <div class="form-group">
-                <button type="submit">Register</button>
+                <button type="submit">Login</button>
             </div>
         </form>
+        <div class="form-group signup-link">
+            Belum punya akun? <a href="/register">Daftar disini</a>
+        </div>
+        <br>
+        <?php echo var_dump($_SESSION); ?>
     </div>
 </body>
 

@@ -30,7 +30,36 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 // $routes->get('/', 'Home::index');
-$routes->get('/', 'auth::login');
+
+
+
+// catatan list tugas manajemen akun
+//1. buat list daftar akun admin yang terdaftar
+
+
+
+// ini untuk user
+$routes->get('/', 'userAutentifikasi::login');
+$routes->get('/login', 'UserAutentifikasi::login');
+$routes->get('/register', 'UserAutentifikasi::register');
+$routes->post('/valid_register', 'UserAutentifikasi::valid_register');
+$routes->post('/valid_login', 'userAutentifikasi::valid_login');
+$routes->get('/logout', 'UserAutentifikasi::logout');
+
+
+
+// ganti dengan userAutentifikasi
+$routes->group('user', ['filter' => 'userAutentifikasi'], function ($routes) {
+    $routes->get('dashboard', 'User\Dashboard::index');
+    $routes->get('dashboard/(:any)', 'User\Dashboard::detail/$1');
+    $routes->post('pembayaran/(:any)', 'User\Dashboard::pembayaran/$1');
+    $routes->post('listBarang', 'User\Dashboard::listBarang');
+    $routes->get('Profile', 'User\Dashboard::Profile');
+    $routes->post('UpdateProfile', 'User\Dashboard::UpdateProfile');
+});
+
+// ini untuk admin
+$routes->get('/administrator', 'auth::login');
 $routes->get('/auth/login', 'auth::login');
 $routes->get('/auth/register', 'auth::register');
 $routes->post('/auth/valid_register', 'auth::valid_register');
@@ -54,12 +83,6 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
 });
 
 
-$routes->group('user', ['filter' => 'auth'], function ($routes) {
-    $routes->get('dashboard', 'User\Dashboard::index');
-    $routes->get('dashboard/(:any)', 'User\Dashboard::detail/$1');
-    $routes->post('pembayaran/(:any)', 'User\Dashboard::pembayaran/$1');
-    $routes->post('listBarang', 'User\Dashboard::listBarang');
-});
 
 $routes->get('/news', 'News::index');
 $routes->get('/news/(:any)', 'News::viewNews/$1');

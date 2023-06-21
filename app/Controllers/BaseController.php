@@ -38,6 +38,7 @@ abstract class BaseController extends Controller
     protected $helpers = ['form'];
 
     protected $session = null;
+    protected $adminModel = null;
     protected $userModel = null;
     protected $validation = null;
     protected $load = null;

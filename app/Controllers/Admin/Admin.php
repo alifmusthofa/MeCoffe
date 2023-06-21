@@ -23,10 +23,7 @@ class Admin extends BaseController
 
     public function index()
     {
-        //cek role dari session
-        if ($this->session->get('role') != 1) {
-            return redirect()->to('/auth/login');
-        }
+
         $produk = new ProdukModel();;
         $data['produk'] = $produk->paginate($this->perpage, 'bootstrap');
         $data['pager'] = $produk->pager;
@@ -36,10 +33,7 @@ class Admin extends BaseController
     public function search()
     {
         $keyword = $this->request->getPost('keyword');
-        //cek role dari session
-        if ($this->session->get('role') != 1) {
-            return redirect()->to('/auth/login');
-        }
+
         if (!$keyword) {
             return redirect()->to('/admin');
         }

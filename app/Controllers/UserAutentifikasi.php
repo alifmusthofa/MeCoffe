@@ -2,16 +2,14 @@
 
 namespace App\Controllers;
 
-use App\Models\AdminModel;
+use App\Models\UserModel;
 
-class Auth extends BaseController
+class UserAutentifikasi extends BaseController
 {
     public function __construct()
     {
-        //membuat admin model untuk konek ke database 
-        $this->adminModel = new AdminModel();
-
-
+        //membuat user model untuk konek ke database 
+        $this->userModel = new UserModel();
 
         //meload validation
         $this->validation = \Config\Services::validation();
@@ -23,13 +21,13 @@ class Auth extends BaseController
     public function login()
     {
         //menampilkan halaman login
-        return view('auth/login');
+        return view('auth/UserLogin');
     }
 
     public function register()
     {
         //menampilkan halaman register
-        return view('auth/register');
+        return view('auth/UserRegister');
     }
 
     public function valid_register()
@@ -46,7 +44,7 @@ class Auth extends BaseController
         //jika ada error kembalikan ke halaman register
         if ($errors) {
             session()->setFlashdata('error', $errors);
-            return redirect()->to('/auth/register');
+            return redirect()->to('/register');
         }
 
         //jika tdk ada error 
@@ -58,16 +56,18 @@ class Auth extends BaseController
         $password = md5($data['password']) . $salt;
 
         //masukan data ke database
-        $this->adminModel->save([
+        $this->userModel->save([
             'username' => $data['username'],
             'password' => $password,
             'salt' => $salt,
-            'role' => 2
+            'nomor' => $data['phone'],
+            'alamat' => $data['address'],
+
         ]);
 
         //arahkan ke halaman login
         session()->setFlashdata('login', 'Anda berhasil mendaftar, silahkan login');
-        return redirect()->to('/admin');
+        return redirect()->to('/login');
     }
 
     public function valid_login()
@@ -75,30 +75,30 @@ class Auth extends BaseController
         //ambil data dari form
         $data = $this->request->getPost();
 
-        //ambil data admin di database yang usernamenya sama 
-        $admin = $this->adminModel->where('username', $data['username'])->first();
+        //ambil data user di database yang usernamenya sama 
+        $user = $this->userModel->where('username', $data['username'])->first();
 
         //cek apakah username ditemukan
-        if ($admin) {
+        if ($user) {
             //cek password
             //jika salah arahkan lagi ke halaman login
-            if ($admin['password'] != md5($data['password']) . $admin['salt']) {
+            if ($user['password'] != md5($data['password']) . $user['salt']) {
                 session()->setFlashdata('password', 'Password salah');
-                return redirect()->to('/auth/login');
+                return redirect()->to('/login');
             } else {
-                //jika benar, arahkan admin masuk ke aplikasi 
+                //jika benar, arahkan user masuk ke aplikasi 
                 $sessLogin = [
                     'isLogin' => true,
-                    'username' => $admin['username'],
-                    'role' => $admin['role']
+                    'id' => $user['id'],
+                    'username' => $user['username'],
                 ];
                 $this->session->set($sessLogin);
-                return redirect()->to('/admin');
+                return redirect()->to('/user/dashboard');
             }
         } else {
             //jika username tidak ditemukan, balikkan ke halaman login
             session()->setFlashdata('username', 'Username tidak ditemukan');
-            return redirect()->to('/auth/login');
+            return redirect()->to('login');
         }
     }
 
@@ -107,6 +107,6 @@ class Auth extends BaseController
         //hancurkan session 
         //balikan ke halaman login
         $this->session->destroy();
-        return redirect()->to('/auth/login');
+        return redirect()->to('/login');
     }
 }

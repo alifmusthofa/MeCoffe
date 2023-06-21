@@ -5,6 +5,7 @@ namespace App\Controllers\User;
 use App\Controllers\BaseController;
 use App\Models\ProdukModel;
 use App\Models\CategoryModel;
+use App\Models\UserModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Dashboard extends BaseController
@@ -59,6 +60,30 @@ class Dashboard extends BaseController
         $jumlah = $this->request->getVar('jumlah');
         $data['jumlah'] = $jumlah;
         echo view('user/pembayaran', $data);
+    }
+
+    public function Profile()
+    {
+        $user = new UserModel();
+        $data['user'] = $user->where([
+            'id' => $this->session->get('id'),
+        ])->first();
+
+
+        echo view('user/editProfil', $data);
+    }
+
+    public function UpdateProfile()
+    {
+        $user = new UserModel();
+        $id = $this->session->get('id');
+        $data['user'] = $user->where('id', $id)->first();
+
+        $user->update($id, [
+            "nomor" => $this->request->getPost('phone'),
+            "alamat" => $this->request->getPost('address'),
+        ]);
+        return redirect()->to('/user/dashboard');
     }
 
     public function listBarang()

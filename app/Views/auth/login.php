@@ -75,7 +75,7 @@
     ?>
 
     <div class="container">
-        <h2>Halaman Login</h2>
+        <h2>Login Admin</h2>
 
         <?php if ($username) { ?>
         <p style="color:red"><?php echo $username ?></p>
@@ -102,11 +102,7 @@
                 <button type="submit">Login</button>
             </div>
         </form>
-        <div class="form-group signup-link">
-            Belum punya akun? <a href="/auth/register">Daftar disini</a>
-        </div>
-        <br>
-        <?php echo var_dump($_SESSION); ?>
+
     </div>
 </body>
 

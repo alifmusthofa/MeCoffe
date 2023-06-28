@@ -6,6 +6,8 @@ use App\Controllers\BaseController;
 use App\Models\ProdukModel;
 use App\Models\CategoryModel;
 use App\Models\UserModel;
+use App\Models\TransaksiModel;
+use App\Models\DaftarbelanjaModel;
 use CodeIgniter\Exceptions\PageNotFoundException;
 
 class Dashboard extends BaseController
@@ -88,18 +90,47 @@ class Dashboard extends BaseController
 
     public function listBarang()
     {
-        echo view('user/listBarang');
+        $transaksi = new TransaksiModel();
+
+        //tangkap data dari form 
+        $data = $this->request->getPost();
+
+        // masukan data ke database
+
+        $transaksi->insert([
+            'id_user' => $this->session->get('id'),
+            'metodePembayaran' => $data['payment'],
+            'totalpembelian' => $data['totalPembayaran'],
+        ]);
+
+        $idTransaksi = $transaksi->last($this->session->get('id'));
+        $idStringTransaksi = json_decode(json_encode($idTransaksi), true);
+
+        $daftarBelanja = new DaftarbelanjaModel();
+        $status = "belum";
+        $daftarBelanja->insert([
+            'id_user' => $this->session->get('id'),
+            'id_barang' => $data['id_product'],
+            'id_transaksi' => $idStringTransaksi,
+            'jumlah' => $data['jumlah'],
+            'harga' => $data['harga'],
+            'totalharga' => $data['Totalharga'],
+            'status' => $status,
+        ]);
+
+        //jika berhasil membeli
+        session()->setFlashdata('pembelian', 'Pesanan Anda telah berhasil diproses.');
+
+        $hasil = json_decode(json_encode($transaksi->jointransaksi()), true);
+        $data['hasil'] = $hasil;
+        echo view('user/listBarang', $data);
     }
-    public function listBarang4()
+    public function daftarBelanja()
     {
-        echo view('user/listBarang');
-    }
-    public function listBarang5()
-    {
-        echo view('user/listBarang');
-    }
-    public function listBarang6()
-    {
-        echo view('user/listBarang');
+
+        $transaksi = new TransaksiModel();
+        $hasil = json_decode(json_encode($transaksi->jointransaksi()), true);
+        $data['hasil'] = $hasil;
+        echo view('user/listBarang', $data);
     }
 }

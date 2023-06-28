@@ -54,6 +54,7 @@ $routes->group('user', ['filter' => 'userAutentifikasi'], function ($routes) {
     $routes->get('dashboard/(:any)', 'User\Dashboard::detail/$1');
     $routes->post('pembayaran/(:any)', 'User\Dashboard::pembayaran/$1');
     $routes->post('listBarang', 'User\Dashboard::listBarang');
+    $routes->get('DaftarBelanja', 'User\Dashboard::daftarBelanja');
     $routes->get('Profile', 'User\Dashboard::Profile');
     $routes->post('UpdateProfile', 'User\Dashboard::UpdateProfile');
 });

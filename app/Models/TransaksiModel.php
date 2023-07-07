@@ -21,9 +21,9 @@ class TransaksiModel extends Model
         $query = db_connect()->query("select id from transaksi where id_user = '" . $id_user . "' ORDER BY id DESC LIMIT 1;");
         return $query->getFirstRow(); // return objek
     }
-    public function jointransaksi()
+    public function jointransaksi($id_user)
     {
-        $query = db_connect()->query("SELECT daftarpembelian.id,daftarpembelian.id_user,daftarpembelian.id_barang,daftarpembelian.id_transaksi,jumlah,daftarpembelian.harga,totalharga,daftarpembelian.status,daftarpembelian.created_at,metodePembayaran,totalpembelian,nama FROM `daftarpembelian` INNER JOIN transaksi ON daftarpembelian.id_transaksi = transaksi.id INNER JOIN produk ON produk.id = daftarpembelian.id_barang WHERE daftarpembelian.id_user = 6;");
+        $query = db_connect()->query("SELECT daftarpembelian.id,daftarpembelian.id_user,daftarpembelian.id_barang,daftarpembelian.id_transaksi,jumlah,daftarpembelian.harga,totalharga,daftarpembelian.status,daftarpembelian.created_at,metodePembayaran,totalpembelian,nama FROM `daftarpembelian` INNER JOIN transaksi ON daftarpembelian.id_transaksi = transaksi.id INNER JOIN produk ON produk.id = daftarpembelian.id_barang WHERE daftarpembelian.id_user = " . $id_user . " ORDER BY daftarpembelian.created_at DESC;");
         return $query->getResultArray();
     }
     public function countTransaksi()

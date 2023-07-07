@@ -85,6 +85,13 @@
         padding: 5px;
         cursor: pointer;
     }
+
+    h1 {
+        color: #FFF;
+        font-size: 60px;
+        font-family: Inter;
+        font-style: italic;
+    }
     </style>
 </head>
 
@@ -92,11 +99,15 @@
 <header>
     <?php $session = session() ?>
     <div class="container">
-        <h1>My E-commerce Store</h1>
+        <h1>MeCoffe</h1>
     </div>
 
 
+    <a href="<?= base_url('/user/dashboard') ?>">Dashboard</a>
+    &nbsp;&nbsp;&nbsp;
     <a href="<?= base_url('/user/DaftarBelanja') ?>">daftarBelanja</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="<?= base_url('/user/Daftarkeranjang') ?>">keranjang</a>
     &nbsp;&nbsp;&nbsp;
 
     <div class="profile" onclick="toggleDropdown()">

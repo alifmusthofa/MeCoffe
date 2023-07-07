@@ -4,65 +4,65 @@
 <head>
     <title>Login MeCoffe</title>
     <style>
-    body {
-        background-color: #f1f1f1;
-        font-family: Arial, sans-serif;
-    }
+        body {
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+        }
 
-    .container {
-        max-width: 400px;
-        margin: 0 auto;
-        padding: 40px;
-        background-color: #fff;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .container h2 {
-        text-align: center;
-        margin-bottom: 30px;
-    }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+        .form-group {
+            margin-bottom: 20px;
+        }
 
-    .form-group label {
-        display: block;
-        margin-bottom: 5px;
-        font-weight: bold;
-    }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
 
-    .form-group input[type="text"],
-    .form-group input[type="password"] {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
+        .form-group input[type="text"],
+        .form-group input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
 
-    .form-group button {
-        width: 100%;
-        padding: 10px;
-        background-color: #4CAF50;
-        border: none;
-        color: #fff;
-        cursor: pointer;
-        border-radius: 4px;
-    }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 4px;
+        }
 
-    .form-group button:hover {
-        background-color: #45a049;
-    }
+        .form-group button:hover {
+            background-color: #45a049;
+        }
 
-    .form-group .signup-link {
-        text-align: center;
-        margin-top: 10px;
-    }
+        .form-group .signup-link {
+            text-align: center;
+            margin-top: 10px;
+        }
 
-    .form-group .signup-link a {
-        color: #337ab7;
-        text-decoration: none;
-    }
+        .form-group .signup-link a {
+            color: #337ab7;
+            text-decoration: none;
+        }
     </style>
 </head>
 
@@ -78,15 +78,15 @@
         <h2>Halaman Login User</h2>
 
         <?php if ($username) { ?>
-        <p style="color:red"><?php echo $username ?></p>
+            <p style="color:red"><?php echo $username ?></p>
         <?php } ?>
 
         <?php if ($password) { ?>
-        <p style="color:red"><?php echo $password ?></p>
+            <p style="color:red"><?php echo $password ?></p>
         <?php } ?>
 
         <?php if ($login) { ?>
-        <p style="color:green"><?php echo $login ?></p>
+            <p style="color:green"><?php echo $login ?></p>
         <?php } ?>
 
         <form action="/valid_login" method="post">
@@ -106,7 +106,7 @@
             Belum punya akun? <a href="/register">Daftar disini</a>
         </div>
         <br>
-        <?php echo var_dump($_SESSION); ?>
+
     </div>
 </body>
 

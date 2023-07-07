@@ -1,8 +1,7 @@
 <?= $this->extend('user/layout/templateDetail'); ?>
 <?= $this->section('content'); ?>
 <div>
-    <form class="form-outline" action="<?= base_url('/user/listBarang/') ?>" method="post"
-        enctype="multipart/form-data">
+    <form class="form-outline" action="<?= base_url('/user/listBarangkeranjang/') ?>" method="post" enctype="multipart/form-data">
 
         <div class="card" style="background :sandybrown">
             <h5 class="card-header">Data Diri</h5>
@@ -32,55 +31,53 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php $totalPembayaran = 0; ?>
+                    <?php foreach ($keranjang as $produk) : ?>
+                        <tr>
 
-
-                    <tr>
-
-                        <td hidden><?= $produk['id'] ?></td>
-                        <input type="number" name="id_product" value="<?= $produk['id'] ?>" class="id" hidden>
-                        <td><img src="<?= base_url('assets/images/produk/' . $produk['id'] . '/' . $produk['gambar']); ?>"
-                                width="50">
-                        </td>
-                        <td>
-                            <strong><?= $produk['nama'] ?></strong><br>
-                        </td>
-                        <td>
-                            <p><?= $produk['ukuran'] ?></p>
-                        </td>
-                        <td>
-                            <p><?= $produk['berat'] ?></p>
-                        </td>
-                        <td>
-                            <p><?= $jumlah ?></p>
-                            <input type="number" name='jumlah' value="<?= $jumlah; ?>" hidden>
-                        </td>
-                        <td>
-                            <?php if (($produk['promo']) == 0)
-                                $harga =  $produk['harga'] ?>
-                            <?php if (($produk['promo']) > 0)
-                                $harga = ($produk['harga'] - ($produk['harga'] * ($produk['promo'] / 100))) ?>
-                            <p class="text">RP. <?= $harga; ?></p>
-                            <input type="number" name='harga' value="<?= $harga; ?>" hidden>
-                        </td>
-                        <td>
-                            <?php if (($produk['promo']) == 0)
-                                $totalharga =  $produk['harga'] * $jumlah ?>
-                            <?php if (($produk['promo']) > 0)
-                                $totalharga = ($produk['harga'] - ($produk['harga'] * ($produk['promo'] / 100))) * $jumlah ?>
-                            <p class="text">RP. <?= $totalharga; ?></p>
-                            <input type="number" name='Totalharga' value="<?= $totalharga; ?>" hidden>
-                        </td>
-                        <input type="text" name='status' hidden>
-                    </tr>
-
+                            <td hidden><?= $produk['id'] ?></td>
+                            <input type="number" name="id_product" value="<?= $produk['id'] ?>" class="id" hidden>
+                            <td><img src="<?= base_url('assets/images/produk/' . $produk['id'] . '/' . $produk['gambar']); ?>" width="50">
+                            </td>
+                            <td>
+                                <strong><?= $produk['nama'] ?></strong><br>
+                            </td>
+                            <td>
+                                <p><?= $produk['ukuran'] ?></p>
+                            </td>
+                            <td>
+                                <p><?= $produk['berat'] ?></p>
+                            </td>
+                            <td>
+                                <p><?= $jumlah = $produk['jumlah'] ?></p>
+                                <input type="number" name='jumlah' value="<?= $jumlah; ?>" hidden>
+                            </td>
+                            <td>
+                                <?php if (($produk['promo']) == 0)
+                                    $harga =  $produk['harga'] ?>
+                                <?php if (($produk['promo']) > 0)
+                                    $harga = ($produk['harga'] - ($produk['harga'] * ($produk['promo'] / 100))) ?>
+                                <p class="text">RP. <?= $harga; ?></p>
+                                <input type="number" name='harga' value="<?= $harga; ?>" hidden>
+                            </td>
+                            <td>
+                                <?php if (($produk['promo']) == 0)
+                                    $totalharga =  $produk['harga'] * $jumlah ?>
+                                <?php if (($produk['promo']) > 0)
+                                    $totalharga = ($produk['harga'] - ($produk['harga'] * ($produk['promo'] / 100))) * $jumlah ?>
+                                <p class="text">RP. <?= $totalharga; ?></p>
+                                <input type="number" name='Totalharga' value="<?= $totalharga; ?>" hidden>
+                            </td>
+                            <?php $totalPembayaran += $totalharga ?>
+                            <input type="text" name='status' hidden>
+                        </tr>
+                    <?php endforeach ?>
 
                 </tbody>
             </table>
-            <?php $totalPembayaran = 0; ?>
-            <?php if (($produk['promo']) == 0)
-                $totalPembayaran =  $produk['harga'] * $jumlah ?>
-            <?php if (($produk['promo']) > 0)
-                $totalPembayaran = ($produk['harga'] - ($produk['harga'] * ($produk['promo'] / 100))) * $jumlah ?>
+
+
+
             <h5 class="card-footer">TOTAL PEMBAYARAN : RP.
                 <?= $totalPembayaran; ?>
             </h5>
@@ -96,8 +93,7 @@
                         <li class="list-group-item">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <input type="radio" name="payment" value="Paypay" class="payment-radio"
-                                        aria-selected="true" checked>
+                                    <input type="radio" name="payment" value="Paypay" class="payment-radio" aria-selected="true" checked>
                                     <img src="Paypay.png" class="payment-logo">
                                     <p class="card-text">Paypay</p>
                                 </div>

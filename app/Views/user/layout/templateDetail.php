@@ -14,6 +14,9 @@
         background-color: #a79323;
         color: #fff;
         padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
     }
 
     footer {
@@ -58,13 +61,91 @@
     .payment-card p {
         margin-top: 10px;
     }
+
+    h1 {
+        color: #FFF;
+        font-size: 60px;
+        font-family: Inter;
+        font-style: italic;
+    }
+
+    /* CSS PROFIL */
+    .profile {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        cursor: pointer;
+    }
+
+    .profile-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin-right: 10px;
+    }
+
+    .profile-name {
+        font-weight: bold;
+    }
+
+    .profile-dropdown {
+        position: absolute;
+        top: 100%;
+        right: 0;
+        background-color: #f9f9f9;
+        color: #333;
+        padding: 10px;
+        min-width: 150px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        display: none;
+        z-index: 1;
+    }
+
+    .profile.active .profile-dropdown {
+        display: block;
+    }
+
+    .profile-dropdown-item {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+    h1 {
+        color: #FFF;
+        font-size: 60px;
+        font-family: Inter;
+        font-style: italic;
+    }
     </style>
 </head>
 
 
 <header>
+    <?php $session = session() ?>
     <div class="container">
-        <h1>My E-commerce Store</h1>
+        <h1>MeCoffe</h1>
+    </div>
+
+    <a href="<?= base_url('/user/dashboard') ?>">Dashboard</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="<?= base_url('/user/DaftarBelanja') ?>">daftarBelanja</a>
+    &nbsp;&nbsp;&nbsp;
+    <a href="<?= base_url('/user/Daftarkeranjang') ?>">keranjang</a>
+    &nbsp;&nbsp;&nbsp;
+
+    <div class="profile" onclick="toggleDropdown()">
+        <div class="profile-name"><?php echo $session->get('username') ?></div>
+        <p>&nbsp;&nbsp;&nbsp;</p>
+        <div class="profile-image"><img src="/img/undraw_profile.svg"></div>
+
+        <div class="profile-dropdown">
+            <div class="profile-dropdown-item"><a class="btn btn-prymary" href="<?= base_url('/user/Profile') ?>">Edit
+                    Profil</a></div>
+            <div class="profile-dropdown-item"><a class="btn btn-prymary" href="<?= base_url('/logout') ?>">Logout</a>
+            </div>
+        </div>
     </div>
 </header>
 

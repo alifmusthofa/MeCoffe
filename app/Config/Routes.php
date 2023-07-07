@@ -57,6 +57,13 @@ $routes->group('user', ['filter' => 'userAutentifikasi'], function ($routes) {
     $routes->get('DaftarBelanja', 'User\Dashboard::daftarBelanja');
     $routes->get('Profile', 'User\Dashboard::Profile');
     $routes->post('UpdateProfile', 'User\Dashboard::UpdateProfile');
+    $routes->post('keranjang/(:any)', 'User\Dashboard::keranjang/$1');
+    $routes->get('Daftarkeranjang', 'User\Dashboard::daftarkeranjang');
+    $routes->get('hapuskeranjang/(:segment)/delete', 'User\Dashboard::hapuskeranjang/$1');
+    $routes->get('ubahkeranjang/(:segment)/tunda', 'User\Dashboard::tunda/$1');
+    $routes->get('ubahkeranjang/(:segment)/beli', 'User\Dashboard::beli/$1');
+    $routes->get('keranjangpembayaran', 'User\Dashboard::keranjangpembayaran');
+    $routes->post('listBarangkeranjang', 'User\Dashboard::listBarangkeranjang');
 });
 
 // ini untuk admin
@@ -81,6 +88,11 @@ $routes->group('admin', ['filter' => 'auth'], function ($routes) {
     $routes->add('produk/new', 'Admin\Admin::create');
     $routes->add('produk/(:segment)/edit', 'Admin\Admin::edit/$1');
     $routes->get('produk/(:segment)/delete', 'Admin\Admin::delete/$1');
+
+    $routes->get('pemesanan', 'Admin\Pemesanan::index');
+    $routes->get('pemesanan/(:segment)/done', 'Admin\Pemesanan::done/$1');
+    $routes->get('terkirim', 'Admin\Pemesanan::terkirim');
+    $routes->get('terkirim/(:segment)/kembalikan', 'Admin\Pemesanan::kembalikan/$1');
 });
 
 

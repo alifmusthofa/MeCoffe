@@ -9,7 +9,7 @@
     <title>User Dashboard</title>
     <style>
         header {
-            background-color: #a79323;
+            background-color: #0A0908;
             color: #fff;
             padding: 20px;
             display: flex;
@@ -18,7 +18,7 @@
         }
 
         footer {
-            background-color: #98b920;
+            background-color: #5E503F;
             color: #fff;
             padding: 20px;
             text-align: center;

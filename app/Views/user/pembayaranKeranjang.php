@@ -3,7 +3,7 @@
 <div>
     <form class="form-outline" action="<?= base_url('/user/listBarangkeranjang/') ?>" method="post" enctype="multipart/form-data">
 
-        <div class="card" style="background :sandybrown">
+        <div class="card" style="background :#DDD4CD">
             <h5 class="card-header">Data Diri</h5>
             <div class="card-body">
                 <h5 class="card-title">Nama</h5>
@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div class="card" style="background :sandybrown">
+        <div class="card" style="background :#DDD4CD">
             <h5 class="card-header">Produk</h5>
             <table class="table" style="padding: 30px;">
                 <thead>
@@ -84,7 +84,7 @@
             <input type="number" name='totalPembayaran' value="<?= $totalPembayaran; ?>" hidden>
         </div>
 
-        <div class="card" style="background :sandybrown">
+        <div class="card" style="background :#DDD4CD">
             <h5 class="card-header">Pilihan Pembayaran</h5>
             <div class="card-body">
                 <div class="payment-options">
@@ -123,7 +123,7 @@
             </div>
         </div>
 
-        <div class="d-grid gap-2">
+        <div class="d-grid gap-2" style="margin: 20px;">
             <button class="btn btn-primary" type="submit">Chekout</button>
         </div>
     </form>

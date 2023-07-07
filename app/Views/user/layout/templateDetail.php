@@ -11,7 +11,7 @@
     <title>User Pembayaran</title>
     <style>
     header {
-        background-color: #a79323;
+        background-color: #0A0908;
         color: #fff;
         padding: 20px;
         display: flex;
@@ -20,7 +20,7 @@
     }
 
     footer {
-        background-color: #98b920;
+        background-color: #5E503F;
         color: #fff;
         padding: 20px;
         text-align: center;
@@ -118,6 +118,18 @@
         font-family: Inter;
         font-style: italic;
     }
+
+    .thank-you-image {
+        width: 200px;
+        height: auto;
+        margin: 20px auto;
+    }
+
+    .konfirmasi {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
     </style>
 </head>
 
@@ -128,11 +140,15 @@
         <h1>MeCoffe</h1>
     </div>
 
-    <a href="<?= base_url('/user/dashboard') ?>">Dashboard</a>
+    <a href="<?= base_url('/user/dashboard') ?>"
+        style="color: white; text-decoration: none; border-bottom: none;">Dashboard</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="<?= base_url('/user/DaftarBelanja') ?>">daftarBelanja</a>
+    <a href="<?= base_url('/user/DaftarBelanja') ?>"
+        style="color: white; text-decoration: none; border-bottom: none;">DaftarBelanja</a>
     &nbsp;&nbsp;&nbsp;
-    <a href="<?= base_url('/user/Daftarkeranjang') ?>">keranjang</a>
+    <a href="<?= base_url('/user/Daftarkeranjang') ?>"
+        style="color: white; text-decoration: none; border-bottom: none;"><img src="<?= base_url('img/Cart.png'); ?>"
+            alt="Keranjang"></a>
     &nbsp;&nbsp;&nbsp;
 
     <div class="profile" onclick="toggleDropdown()">
